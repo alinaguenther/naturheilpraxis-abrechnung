@@ -1,0 +1,14 @@
+[
+  {
+    "id": "1",
+    "name": "Max Mustermann",
+    "adresse": "Musterstraße 1, 12345 Musterstadt",
+    "geburtstag": "1990-01-01",
+    "versicherung": "Privat",
+    "email": "max@example.com",
+    "termine": {
+      "geplant": ["2025-06-01T10:00:00"],
+      "vergangen": ["2025-05-01T14:00:00"]
+    }
+  }
+]
