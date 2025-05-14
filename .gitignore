@@ -32,6 +32,12 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+.env*.local
+.env.development
+.env.production
+
+# keep example env file
+!.env.example
 
 # vercel
 .vercel
@@ -39,3 +45,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# database
+/data/*.db
+/data/*.db-journal
+/drizzle/migrations
+src/data/icd10.json
+src/data/patienten.json
+package-lock.json

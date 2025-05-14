@@ -7,7 +7,7 @@ export async function generateInvoicePDF(invoiceData: any): Promise<Uint8Array> 
   const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
   const fontSize = 12;
 
-  page.drawText(`Rechnung für ${invoiceData.kunde.name}`, {
+  page.drawText(`Rechnung für ${invoiceData.patient.name}`, {
     x: 50,
     y: height - 50,
     size: fontSize,
