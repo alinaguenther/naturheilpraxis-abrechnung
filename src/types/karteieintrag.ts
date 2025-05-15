@@ -1,5 +1,7 @@
-export type Karteieintrag = {
-    datum: string;
-    notiz: string;
-    diagnosen: string[];
-  };
+  export interface Karteieintrag {
+  id: string;
+  datum: string;
+  notiz: string;
+  diagnosen: string[];
+  //therapie: string;
+}
