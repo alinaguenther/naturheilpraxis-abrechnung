@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import { resolve } from 'path';
-import { ICD10Entry } from '@/types/icd10';
+import { Icd10Eintrag } from '@/types/icd10';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,12 +17,12 @@ export async function GET(request: NextRequest) {
     }
 
     const file = await fs.readFile(filePath, 'utf-8');
-    const icd = JSON.parse(file) as ICD10Entry[];
+    const icd = JSON.parse(file) as Icd10Eintrag[];
 
     const treffer = icd
       .filter(entry => 
         entry.code.toLowerCase().includes(query) || 
-        entry.text.toLowerCase().includes(query)
+        entry.titel.toLowerCase().includes(query)
       )
       .slice(0, 10);
 

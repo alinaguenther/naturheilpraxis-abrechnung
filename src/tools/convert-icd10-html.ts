@@ -7,11 +7,16 @@ import { parseKapiteldateien, KapitelZuordnung } from './parse-chapters.js';
 import { Icd10Eintrag } from '../types/icd10.js';
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
-const blocksDir = path.join(__dirname, '../data/icd10-html');
-const outputPath = path.join(__dirname, '../data/icd10.json');
+// Update paths to use public/data directory
+const blocksDir = path.join(process.cwd(), 'src', 'data', 'icd10-html');
+const outputPath = path.join(process.cwd(), 'public', 'data', 'icd10.json');
 
+// Create the output directory if it doesn't exist
+async function ensureOutputDir() {
+  const outputDir = path.dirname(outputPath);
+  await fs.mkdir(outputDir, { recursive: true });
+}
 
 function generateId(code: string, titel: string) {
   return crypto.createHash('sha256').update(`${code}|${titel}`).digest('hex');
@@ -38,6 +43,7 @@ async function parseHtmlFile(filePath: string): Promise<Omit<Icd10Eintrag, 'id' 
 }
 
 async function convertAllBlocks() {
+  await ensureOutputDir();
   const files = (await fs.readdir(blocksDir)).filter(f => f.startsWith('block-') && f.endsWith('.htm'));
   const kapitelDaten = await parseKapiteldateien();
   const existing: Record<string, Icd10Eintrag> = {};

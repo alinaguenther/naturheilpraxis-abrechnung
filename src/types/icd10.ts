@@ -3,5 +3,5 @@ export type Icd10Eintrag = {
   titel: string;
   kapitel?: string;
   kapitelTitel?: string;
-  id?: string;
+  id: string;
 };

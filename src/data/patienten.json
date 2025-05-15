@@ -4,30 +4,19 @@
     "vorname": "Max",
     "nachname": "Mustermann",
     "adresse": "Musterstraße 1",
+    "plz": "12345",
+    "ort": "Musterstadt",
     "geburtstag": "1990-01-01",
     "versicherung": "Privat",
     "email": "max@example.com",
+    "telefon": "0123456789",
+    "mobil": "0987654321",
     "geschlecht": "männlich",
     "termine": {
       "geplant": [],
       "vergangen": []
     },
     "kartei": [
-      {
-        "datum": "2025-05-14T11:54:24.204Z",
-        "notiz": "Test",
-        "diagnosen": [
-          "R51 - Kopfschmerz",
-          "M54.5 - Kreuzschmerz"
-        ]
-      },
-      {
-        "datum": "2025-05-14T10:00:00Z",
-        "notiz": "Patient klagt über Kopfschmerzen...",
-        "diagnosen": [
-          "R51 - Kopfschmerzen"
-        ]
-      }
     ]
   }
 ]

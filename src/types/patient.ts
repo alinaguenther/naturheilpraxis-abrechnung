@@ -6,11 +6,22 @@ export enum Geschlecht {
   DIVERS = 'divers'
 }
 
-export interface Patient {
+export type Patient = {
   id: string;
   vorname: string;
   nachname: string;
+  adresse: string;
+  plz: string;
+  ort: string;
   geburtsdatum: string;
-  geschlecht: 'männlich' | 'weiblich' | 'divers';
+  versicherung: string;
+  email: string;
+  telefon: string;
+  mobil: string;
+  geschlecht: Geschlecht;
+  termine: {
+    geplant: string[];
+    vergangen: string[];
+  };
   kartei: Karteieintrag[];
 }
