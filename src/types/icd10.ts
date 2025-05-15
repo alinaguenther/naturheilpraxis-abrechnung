@@ -1,11 +1,8 @@
-export interface ICD10Chapter {
-  id: string;
-  title: string;
-  range: string;
-}
-
-export interface ICD10Entry {
+type Icd10Eintrag = {
   code: string;
-  text: string;
-  chapterId: string;
-}
+  titel: string;
+  gruppe?: string;
+  kapitel?: string;
+  kapitelTitel?: string;
+  quelle: string;
+};

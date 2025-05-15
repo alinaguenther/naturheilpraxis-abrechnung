@@ -2,14 +2,20 @@
   "name": "naturheilpraxis-abrechnung",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "convert": "tsx src/tools/convert-icd10-html.ts"
   },
   "dependencies": {
+    "@types/cheerio": "^0.22.35",
     "@types/jsdom": "^21.1.7",
+    "cheerio": "^1.0.0",
+    "csvtojson": "^2.0.10",
+    "domhandler": "^5.0.3",
     "dotenv": "^16.5.0",
     "jsdom": "^26.1.0",
     "next": "15.3.2",
