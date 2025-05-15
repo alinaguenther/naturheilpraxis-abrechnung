@@ -1,0 +1,17 @@
+[
+  {
+    "id": "I",
+    "title": "Bestimmte infektiöse und parasitäre Krankheiten",
+    "range": "A00-B99"
+  },
+  {
+    "id": "XIII",
+    "title": "Krankheiten des Muskel-Skelett-Systems",
+    "range": "M00-M99"
+  },
+  {
+    "id": "XVIII",
+    "title": "Symptome und abnorme klinische Befunde",
+    "range": "R00-R99"
+  }
+]

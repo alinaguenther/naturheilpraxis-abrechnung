@@ -1,0 +1,17 @@
+[
+  {
+    "code": "M54.5",
+    "text": "Kreuzschmerz",
+    "chapter_id": "XIII"
+  },
+  {
+    "code": "M54.2",
+    "text": "Zervikalneuralgie",
+    "chapter_id": "XIII"
+  },
+  {
+    "code": "R51",
+    "text": "Kopfschmerz",
+    "chapter_id": "XVIII"
+  }
+]
