@@ -5,7 +5,7 @@ import { Icd10Eintrag } from '@/types/icd10';
 
 export const dynamic = 'force-dynamic';
 
-const filePath = resolve(process.cwd(), 'src', 'data', 'icd10.json');
+const filePath = resolve(process.cwd(), 'public', 'data', 'icd10.json');
 
 export async function GET(request: NextRequest) {
   try {

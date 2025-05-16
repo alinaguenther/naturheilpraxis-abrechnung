@@ -10,13 +10,50 @@
     "versicherung": "Privat",
     "email": "max@example.com",
     "telefon": "0123456789",
-    "mobil": "0987654321",
+    "mobil": "09876543214",
     "geschlecht": "männlich",
     "termine": {
       "geplant": [],
       "vergangen": []
     },
     "kartei": [
-    ]
+      {
+        "id": "dcb54bd7-9759-44f6-9e6c-6a94447801b3",
+        "datum": "2025-05-16T00:14:17.470Z",
+        "notiz": " könnte jetzt halt sprechen und der übernimmt das",
+        "diagnosen": [
+          "f7359d84f32883ff562555d168e396ab4a0e926a2e7c5d3fcf49a741991c9bbd",
+          "1e6168c98376032d185a889d04cfc6f329df166dccaec6d033e46a45c67f7152"
+        ]
+      },
+      {
+        "id": "1eeb769f-eb66-4950-a994-1dd248fddfd6",
+        "datum": "2025-05-15T23:53:16.615Z",
+        "notiz": "test",
+        "diagnosen": [
+          "11033491a6091e6c914b3a604b3e59f86dbd5127950e07c8869028788bbda895"
+        ]
+      }
+    ],
+    "geburtsdatum": "2025-05-06"
+  },
+  {
+    "vorname": "Alina",
+    "nachname": "Günther",
+    "adresse": "Teutonenweg 10 n",
+    "plz": "22453",
+    "ort": "Hamburg",
+    "geburtsdatum": "2012-03-31",
+    "versicherung": "Barmer",
+    "email": "alina.guen@web.de",
+    "telefon": "5255258566",
+    "mobil": "0170000",
+    "geschlecht": "weiblich",
+    "termine": {
+      "geplant": [],
+      "vergangen": []
+    },
+    "kartei": [],
+    "id": "1747400600800"
   }
 ]
