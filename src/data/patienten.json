@@ -43,55 +43,17 @@
     "adresse": "Teutonenweg 10 n",
     "plz": "22453",
     "ort": "Hamburg",
-    "geburtsdatum": "2012-03-31",
+    "geburtsdatum": "2025-04-29",
     "versicherung": "Barmer",
     "email": "alina.guen@web.de",
-    "telefon": "5255258566",
-    "mobil": "0170000",
+    "telefon": "01709373931",
+    "mobil": "0420651",
     "geschlecht": "weiblich",
     "termine": {
       "geplant": [],
       "vergangen": []
     },
     "kartei": [],
-    "id": "1747400600800"
-  },
-  {
-    "vorname": "Alina",
-    "nachname": "Feuer",
-    "adresse": "Teutonenweg 10 n",
-    "plz": "22453",
-    "ort": "Hamburg",
-    "geburtsdatum": "2025-05-22",
-    "versicherung": "",
-    "email": "alina.guen@web.de",
-    "telefon": "01709373931",
-    "mobil": "052516",
-    "geschlecht": "divers",
-    "termine": {
-      "geplant": [],
-      "vergangen": []
-    },
-    "kartei": [],
-    "id": "1747421629728"
-  },
-  {
-    "vorname": "Tabea",
-    "nachname": "Günther",
-    "adresse": "Teutonenweg 10 n",
-    "plz": "22453",
-    "ort": "Hamburg",
-    "geburtsdatum": "2025-05-23",
-    "versicherung": "",
-    "email": "alina.guen@web.de",
-    "telefon": "01709373931",
-    "mobil": "20506",
-    "geschlecht": "divers",
-    "termine": {
-      "geplant": [],
-      "vergangen": []
-    },
-    "kartei": [],
-    "id": "1747421754072"
+    "id": "1747423891018"
   }
 ]
