@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Button } from '@/components/layout/Button';
+import { Button } from '@/components/ui/Button';
 import { FormFieldset } from './FormFieldset';
 import { FormField as FieldComponent } from './FormField';
 import { PatientFormProps } from '@/types/patientForm';
@@ -10,7 +10,7 @@ import {
   contactFields, 
   otherFields,
   getPatientFieldsets
-} from './patientFormFields';
+} from '@/components/domain/patients/shared/patientFormFields';
 
 /**
  * PatientForm - Formularelement zum Erstellen und Bearbeiten von Patientendaten

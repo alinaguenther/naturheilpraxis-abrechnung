@@ -1,5 +1,5 @@
 import React from 'react';
-import Input from '@/components/layout/Input';
+import Input from '@/components/ui/Input';
 import { FormField as FormFieldType } from '@/types/patientForm';
 
 interface FormFieldProps {

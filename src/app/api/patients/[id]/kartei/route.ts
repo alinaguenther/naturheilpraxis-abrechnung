@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { z } from 'zod';
-import { KarteieintragSchema } from '@/schema/karteieintragSchema';
+import { KarteieintragSchema } from '@/schemas/karteieintragSchema';
 import { Patient } from '@/types/patient';
 
 export const dynamic = 'force-dynamic';

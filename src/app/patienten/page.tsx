@@ -2,10 +2,10 @@
 
 import { usePatients } from '@/hooks/usePatients';
 import { Header } from '@/components/layout/Header';
-import { SearchBar } from '@/components/patients/SearchBar';
-import { PatientForm } from '@/components/patients/PatientForm';
-import { PatientTable } from '@/components/patients/PatientTable';
-import { ConfirmDialog } from '@/components/layout/ConfirmDialog';
+import { SearchBar } from '@/components/domain/patients/search/SearchBar';
+import { PatientForm } from '@/components/domain/patients/form/PatientForm';
+import { PatientTable } from '@/components/domain/patients/list/PatientTable';
+import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { useEffect, useRef, useCallback } from 'react';
 import type { Patient } from '@/types/patient';
 

@@ -1,5 +1,5 @@
 import { Patient } from '@/types/patient';
-import { Button } from '@/components/layout/Button';
+import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
 import { FiEdit2, FiTrash2, FiFolder, FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import React, { useState, useEffect } from 'react';

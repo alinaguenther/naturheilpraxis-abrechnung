@@ -1,4 +1,4 @@
-import { Button } from '../layout/Button';
+import { Button } from '@/components/ui/Button';
 import { FiPlus, FiSearch } from 'react-icons/fi';
 
 interface SearchBarProps {

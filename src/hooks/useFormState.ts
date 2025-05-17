@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { Patient, hasValidContactInfo } from '@/types/patient';
 import { FormPath } from '@/types/patientForm';
-import { getRequiredFieldErrors, validatePatternFields } from '@/utils/formValidation';
+import { getRequiredFieldErrors, validatePatternFields } from '@/lib/formValidation';
 
 export const usePatientForm = (
   form: Omit<Patient, 'id'>,
