@@ -1,59 +1,52 @@
 [
   {
-    "id": "1",
-    "vorname": "Max",
-    "nachname": "Mustermann",
-    "adresse": "Musterstraße 1",
-    "plz": "12345",
-    "ort": "Musterstadt",
-    "geburtstag": "1990-01-01",
-    "versicherung": "Privat",
-    "email": "max@example.com",
-    "telefon": "0123456789",
-    "mobil": "09876543214",
-    "geschlecht": "männlich",
-    "termine": {
-      "geplant": [],
-      "vergangen": []
-    },
-    "kartei": [
-      {
-        "id": "dcb54bd7-9759-44f6-9e6c-6a94447801b3",
-        "datum": "2025-05-16T00:14:17.470Z",
-        "notiz": " könnte jetzt halt sprechen und der übernimmt das",
-        "diagnosen": [
-          "f7359d84f32883ff562555d168e396ab4a0e926a2e7c5d3fcf49a741991c9bbd",
-          "1e6168c98376032d185a889d04cfc6f329df166dccaec6d033e46a45c67f7152"
-        ]
-      },
-      {
-        "id": "1eeb769f-eb66-4950-a994-1dd248fddfd6",
-        "datum": "2025-05-15T23:53:16.615Z",
-        "notiz": "test",
-        "diagnosen": [
-          "11033491a6091e6c914b3a604b3e59f86dbd5127950e07c8869028788bbda895"
-        ]
-      }
-    ],
-    "geburtsdatum": "2025-05-06"
-  },
-  {
     "vorname": "Alina",
     "nachname": "Günther",
-    "adresse": "Teutonenweg 10 n",
-    "plz": "22453",
-    "ort": "Hamburg",
-    "geburtsdatum": "2025-04-29",
-    "versicherung": "Barmer",
-    "email": "alina.guen@web.de",
-    "telefon": "01709373931",
-    "mobil": "0420651",
+    "geburtsdatum": "1995-03-31",
     "geschlecht": "weiblich",
+    "anschrift": {
+      "adresse": "Teutonenweg",
+      "hausnummer": "10n",
+      "plz": "22453",
+      "ort": "Hamburg",
+      "adresseZusatz": ""
+    },
+    "kontakt": {
+      "telefon": "+491709373931",
+      "mobil": "",
+      "email": "alina.guen@web.de"
+    },
+    "versicherung": "Barmer",
     "termine": {
       "geplant": [],
       "vergangen": []
     },
     "kartei": [],
-    "id": "1747423891018"
+    "id": "dab44a82-e820-4e71-8595-c65c4bd4e9f1"
+  },
+  {
+    "vorname": "Max",
+    "nachname": "Mustermann",
+    "geburtsdatum": "1996-01-01",
+    "geschlecht": "männlich",
+    "anschrift": {
+      "adresse": "Musterstraße",
+      "hausnummer": "1",
+      "plz": "12345",
+      "ort": "Musterstadt",
+      "adresseZusatz": "1. Stock"
+    },
+    "kontakt": {
+      "telefon": "040555555",
+      "mobil": "0170555555",
+      "email": "geheim@mustermann.de"
+    },
+    "versicherung": "AOK",
+    "termine": {
+      "geplant": [],
+      "vergangen": []
+    },
+    "kartei": [],
+    "id": "67c82063-ac71-4dd0-8803-419433876f64"
   }
 ]

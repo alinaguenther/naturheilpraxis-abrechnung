@@ -21,18 +21,42 @@ export async function GET() {
 // POST new patient
 export async function POST(request: NextRequest) {
   try {
-    const patient = await request.json();
+    // Patientendaten aus dem Request extrahieren
+    const patientData = await request.json();
+    
+    // Neue ID generieren
+    const id = crypto.randomUUID();
+    
+    // Sicherstellen, dass alle Felder richtig initialisiert sind
+    const newPatient = {
+      ...patientData,
+      id,
+      anschrift: patientData.anschrift || {
+        adresse: '',
+        hausnummer: '',
+        plz: '',
+        ort: '',
+        adresseZusatz: ''
+      },
+      kontakt: patientData.kontakt || {
+        telefon: '',
+        mobil: '',
+        email: ''
+      },
+      termine: patientData.termine || {
+        geplant: [],
+        vergangen: []
+      },
+      kartei: patientData.kartei || []
+    };
+    
     const file = await fs.readFile(filePath, 'utf-8');
     const patienten = JSON.parse(file);
 
-    // Generate new ID
-    const id = Date.now().toString();
-    const neuerPatient = { ...patient, id };
-    
-    patienten.push(neuerPatient);
+    patienten.push(newPatient);
     await fs.writeFile(filePath, JSON.stringify(patienten, null, 2), 'utf-8');
 
-    return NextResponse.json(neuerPatient);
+    return NextResponse.json(newPatient);
   } catch (error) {
     console.error('POST Fehler:', error);
     return NextResponse.json({ error: 'Interner Serverfehler' }, { status: 500 });

@@ -1,45 +1,103 @@
-import { Patient, Geschlecht } from '@/types/patient';
+import React, { useEffect, useRef } from 'react';
 import { Button } from '@/components/layout/Button';
-import { Input } from '@/components/layout/Input';
+import { FormFieldset } from './FormFieldset';
+import { FormField as FieldComponent } from './FormField';
+import { PatientFormProps } from '@/types/patientForm';
+import { usePatientForm } from '@/hooks/useFormState';
+import { 
+  personalFields, 
+  addressFields, 
+  contactFields, 
+  otherFields,
+  getPatientFieldsets
+} from './patientFormFields';
 
-export interface PatientFormProps {
-  form: Omit<Patient, 'id'>;
-  setForm: React.Dispatch<React.SetStateAction<Omit<Patient, 'id'>>>;
-  onSubmit: (e: React.FormEvent) => void;
-  onCancel: () => void;
-  submitLabel: string;
-}
-
+/**
+ * PatientForm - Formularelement zum Erstellen und Bearbeiten von Patientendaten
+ */
 export function PatientForm({ form, setForm, onSubmit, onCancel, submitLabel }: PatientFormProps) {
+  const firstInputRef = useRef<HTMLInputElement>(null!) as React.RefObject<HTMLInputElement>;
+  const { errors, getFieldValue, handleInputChange, hasFieldError, validateForm } = usePatientForm(form, setForm, onSubmit);
+
+  // Alle Form Fields zusammenfassen
+  const allFields = {
+    personalFields,
+    addressFields,
+    contactFields,
+    otherFields
+  };
+
+  // Fieldsets definieren
+  const fieldsets = getPatientFieldsets(allFields);
+
+  // Renderfeld-Funktion
+  const renderField = React.useCallback((field: { id: string; label: string; type: string; [key: string]: any }) => {
+    const fieldValue = getFieldValue(field.id);
+    const fieldErrorMessage = errors[field.id];
+    const isError = hasFieldError(field.id);
+
+    // Für verschachtelte Objekte den Wert korrekt abrufen
+    const getValue = (path: string): string => {
+      if (path.includes('.')) {
+        const [group, key] = path.split('.');
+        const groupObj = form[group as keyof typeof form];
+        return groupObj && typeof groupObj === 'object' 
+          ? (groupObj as any)[key] || '' 
+          : '';
+      }
+      return (form[path as keyof typeof form] as string) || '';
+    };
+
+    return (
+      <FieldComponent
+        key={field.id}
+        field={field}
+        value={getValue(field.id)} // Verwende getValue für verschachtelte Objekte
+        hasError={isError}
+        errorMessage={fieldErrorMessage}
+        onChange={handleInputChange}
+        inputRef={field.id === 'vorname' ? firstInputRef : undefined}
+      />
+    );
+  }, [form, getFieldValue, handleInputChange, hasFieldError, errors]);
+
+  // Initialen Fokus setzen
+  useEffect(() => {
+    if (firstInputRef.current) {
+      firstInputRef.current.focus();
+    }
+  }, []);
+
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Input className="border p-2 rounded" placeholder="Vorname" value={form.vorname} onChange={(e) => setForm({ ...form, vorname: e.target.value })} />
-        <input className="border p-2 rounded" placeholder="Nachname" value={form.nachname} onChange={(e) => setForm({ ...form, nachname: e.target.value })} />
-        <input className="border p-2 rounded" placeholder="Adresse" value={form.adresse} onChange={(e) => setForm({ ...form, adresse: e.target.value })} />
-        <input className="border p-2 rounded" placeholder="PLZ" value={form.plz} onChange={(e) => setForm({ ...form, plz: e.target.value })} />
-        <input className="border p-2 rounded" placeholder="Ort" value={form.ort} onChange={(e) => setForm({ ...form, ort: e.target.value })} />
-        <input className="border p-2 rounded" type="date" value={form.geburtsdatum} onChange={(e) => setForm({ ...form, geburtsdatum: e.target.value })} />
-        <input className="border p-2 rounded" placeholder="E-Mail" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
-        <input className="border p-2 rounded" placeholder="Telefon" value={form.telefon} onChange={(e) => setForm({ ...form, telefon: e.target.value })} />
-        <input className="border p-2 rounded" placeholder="Mobil" value={form.mobil} onChange={(e) => setForm({ ...form, mobil: e.target.value })} />
-        <select className="border p-2 rounded" value={form.geschlecht} onChange={(e) => setForm({ ...form, geschlecht: e.target.value as Geschlecht })}>
-          <option value={Geschlecht.MAENNLICH}>Männlich</option>
-          <option value={Geschlecht.WEIBLICH}>Weiblich</option>
-          <option value={Geschlecht.DIVERS}>Divers</option>
-        </select>
-        <input className="border p-2 rounded" placeholder="Versicherung" value={form.versicherung} onChange={(e) => setForm({ ...form, versicherung: e.target.value })} />
+    <form onSubmit={validateForm} className="space-y-4" noValidate>
+      <div className="grid grid-cols-1 gap-4">
+        {fieldsets.map((fieldset, index) => (
+          <FormFieldset
+            key={index}
+            index={index}
+            title={fieldset.title}
+            description={fieldset.description}
+            fields={fieldset.fields}
+            cols={fieldset.cols}
+            errorKey={fieldset.errorKey}
+            errorMessage={fieldset.errorKey ? errors[fieldset.errorKey] : undefined}
+            renderField={renderField}
+          />
+        ))}
       </div>
-      <div className="col-span-full flex gap-2">
-        <Button type="submit" variant="primary">
-          {submitLabel}
-        </Button>
-        <Button 
-          type="button" 
-          variant="secondary" 
+
+      <div className="flex justify-end gap-3 pt-6 border-t border-gray-200 mt-6">
+        <Button
+          type="button"
           onClick={onCancel}
+          variant="secondary"
         >
           Abbrechen
+        </Button>
+        <Button 
+          type="submit"
+        >
+          {submitLabel}
         </Button>
       </div>
     </form>

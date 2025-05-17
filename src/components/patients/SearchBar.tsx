@@ -1,4 +1,5 @@
-import { Button } from '@/components/layout/Button';
+import { Button } from '../layout/Button';
+import { FiPlus, FiSearch } from 'react-icons/fi';
 
 interface SearchBarProps {
   value: string;
@@ -8,21 +9,26 @@ interface SearchBarProps {
 
 export function SearchBar({ value, onChange, onNewPatient }: SearchBarProps) {
   return (
-    <div className="flex flex-col md:flex-row md:items-center gap-4 mb-8">
-      <input
-        type="text"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder="🔍 Suche nach Name oder E-Mail"
-        className="flex-1 border rounded-md px-4 py-2 shadow-sm focus:outline-none"
-        data-lastpass-ignore="true"
-      />
-      <Button
+    <div className="flex flex-col sm:flex-row gap-3 mb-6" role="search">
+      <div className="relative flex-1">
+        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <FiSearch className="text-gray-400" aria-hidden="true" />
+        </div>
+        <input
+          type="text"
+          placeholder="Patienten suchen..."
+          value={value}
+          onChange={e => onChange(e.target.value)}
+          className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+          aria-label="Patienten suchen"
+        />
+      </div>
+      <Button 
         onClick={onNewPatient}
-        variant="primary"
-        type="button"
+        className="flex items-center justify-center gap-2"
       >
-        Neuer Patient
+        <FiPlus aria-hidden="true" />
+        <span>Neuer Patient</span>
       </Button>
     </div>
   );
