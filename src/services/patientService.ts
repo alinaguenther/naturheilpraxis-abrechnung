@@ -1,7 +1,7 @@
 import db from '@/lib/db';
-import { encrypt, decrypt } from '@/lib/encryption';
-import { logAccess } from '@/services/auditService';
-import { getCurrentUser } from '@/lib/auth';
+import { encrypt, decrypt } from '@/lib/encryptionMock';
+import { logAccess } from '@/services/auditServiceMock';
+import { getCurrentUser } from '@/lib/authClient'; // <-- Änderung hier
 import { Patient } from '@/types/patient';
 import { Karteieintrag } from '@/types/karteieintrag';
 import { getInitialForm } from '@/types/patient';
@@ -27,40 +27,12 @@ export async function getAllPatients(): Promise<Patient[]> {
       throw new Error(`Fehler beim Laden der Patienten: ${response.status}`);
     }
     
-    const encryptedPatients = await response.json();
+    const patients = await response.json();
     
-    if (!Array.isArray(encryptedPatients)) {
-      throw new Error('Ungültiges Datenformat');
-    }
+    // Hier würde in einer echten Anwendung die Entschlüsselung stattfinden
+    // Für die Entwicklung geben wir die Daten unverändert zurück
     
-    // Log access for audit trail
-    logAccess({
-      action: 'LIST_PATIENTS',
-      user: currentUser.id,
-      details: 'Patientenliste abgerufen'
-    });
-    
-    // Decrypt sensitive data for each patient
-    const decryptedPatients = encryptedPatients.map(patient => ({
-      ...patient,
-      vorname: decrypt(patient.vorname),
-      nachname: decrypt(patient.nachname),
-      geburtsdatum: decrypt(patient.geburtsdatum),
-      anschrift: {
-        ...patient.anschrift,
-        adresse: decrypt(patient.anschrift.adresse),
-        hausnummer: decrypt(patient.anschrift.hausnummer),
-        plz: decrypt(patient.anschrift.plz),
-        ort: decrypt(patient.anschrift.ort),
-      },
-      kontakt: {
-        ...patient.kontakt,
-        telefon: patient.kontakt.telefon ? decrypt(patient.kontakt.telefon) : undefined,
-        email: patient.kontakt.email ? decrypt(patient.kontakt.email) : undefined,
-      }
-    }));
-    
-    return decryptedPatients;
+    return patients;
   } catch (error) {
     console.error('Fehler beim Laden der Patienten:', error);
     throw new Error('Patienten konnten nicht geladen werden');

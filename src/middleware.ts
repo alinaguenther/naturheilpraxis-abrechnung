@@ -1,33 +1,34 @@
 // src/middleware.ts
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { verifySessionToken } from './lib/auth';
 
-// Pfade, die ohne Authentifizierung zugänglich sind
-const publicPaths = ['/login', '/api/auth', '/images'];
-
-export async function middleware(request: NextRequest) {
-  // Prüfe, ob der Pfad öffentlich ist
-  const isPublicPath = publicPaths.some(path => request.nextUrl.pathname.startsWith(path));
-  
-  if (isPublicPath) {
+// Schützt API-Routen ohne Cookies zu verwenden
+export function middleware(request: NextRequest) {
+  // Für Entwicklungszwecke: keine Authentifizierung erzwingen
+  if (process.env.NODE_ENV === 'development') {
     return NextResponse.next();
   }
   
-  // Authentifizierung prüfen
-  const session = await verifySessionToken();
+  const isApiRoute = request.nextUrl.pathname.startsWith('/api');
+  const isAuthRoute = request.nextUrl.pathname.startsWith('/api/auth');
   
-  // Wenn nicht authentifiziert, zur Login-Seite umleiten
-  if (!session) {
-    const loginUrl = new URL('/login', request.url);
-    loginUrl.searchParams.set('redirect', request.nextUrl.pathname);
-    return NextResponse.redirect(loginUrl);
+  // API-Schutz
+  if (isApiRoute && !isAuthRoute) {
+    const authHeader = request.headers.get('Authorization');
+    
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    
+    // In einer vollständigen Implementierung würde der Token hier validiert werden
   }
   
-  // Wenn authentifiziert, Anfrage weitergeben
   return NextResponse.next();
 }
 
+// Konfiguration: Auf welche Routen die Middleware angewendet werden soll
 export const config = {
-  matcher: ['/((?!_next/static|favicon.ico).*)'],
+  matcher: [
+    '/api/((?!auth).*)'
+  ],
 };

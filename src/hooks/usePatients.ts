@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Patient, Geschlecht } from '@/types/patient';
+import { Patient, getInitialForm } from '@/types/patient';
+import * as patientService from '@/services/patientService';
 
 export function usePatients() {
   const [patienten, setPatienten] = useState<Patient[]>([]);
@@ -12,36 +13,19 @@ export function usePatients() {
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [form, setForm] = useState<Omit<Patient, 'id'>>(getInitialForm());
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchPatienten = useCallback(async () => {
     setIsLoading(true);
+    setError(null);
+    
     try {
-      const response = await fetch('/api/patienten');
-      
-      if (!response.ok) {
-        throw new Error(`Fehler beim Laden der Patienten: ${response.statusText}`);
-      }
-      
-      let data;
-      try {
-        data = await response.json();
-      } catch (error) {
-        console.error('JSON parsing error:', error);
-        data = []; // Fallback zu einer leeren Liste
-      }
-      
-      // Validiere, dass ein Array zurückgegeben wurde
-      if (!Array.isArray(data)) {
-        console.error('API returned invalid data format');
-        data = [];
-      }
-      
+      const data = await patientService.getAllPatients();
       setPatienten(data);
-    } catch (error) {
-      console.error('Error fetching patients:', error);
+    } catch (err) {
+      console.error('Fehler beim Laden der Patienten:', err);
+      setError('Patienten konnten nicht geladen werden');
       setPatienten([]);
-      // Optional: Zeige eine Benutzerbenachrichtigung an
-      // toast.error('Patientendaten konnten nicht geladen werden');
     } finally {
       setIsLoading(false);
     }
@@ -90,16 +74,12 @@ export function usePatients() {
 
   const handleDelete = async (id: string) => {
     try {
-      const res = await fetch(`/api/patienten/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-
+      await patientService.deletePatient(id);
       setPatienten((prev) => prev.filter((p) => p.id !== id));
       setDeleteId(null);
-    } catch (error) {
-      console.error('Error deleting patient:', error);
+    } catch (err) {
+      console.error('Fehler beim Löschen des Patienten:', err);
+      setError('Patient konnte nicht gelöscht werden');
     }
   };
 
@@ -107,39 +87,39 @@ export function usePatients() {
     e.preventDefault();
     
     const isNewPatient = formularOffenId === 'neu';
-    const url = isNewPatient ? '/api/patienten' : `/api/patienten/${formularOffenId}`;
-    const method = isNewPatient ? 'POST' : 'PUT';
-  
+    
     try {
-      const res = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
-  
-      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-  
-      const updated = await res.json();
-      setPatienten((prev) =>
-        isNewPatient ? [...prev, updated] : prev.map((p) => (p.id === updated.id ? updated : p))
-      );
-  
+      if (isNewPatient) {
+        const newPatient = await patientService.createPatient(form);
+        setPatienten((prev) => [...prev, newPatient]);
+      } else if (formularOffenId) {
+        const updatedPatient = await patientService.updatePatient(formularOffenId, form);
+        if (updatedPatient) {
+          setPatienten((prev) => 
+            prev.map((p) => (p.id === updatedPatient.id ? updatedPatient : p))
+          );
+        }
+      }
+      
       setFormularOffenId(null);
       setForm(getInitialForm());
-    } catch (error) {
-      console.error('Error saving patient:', error);
+    } catch (err) {
+      console.error('Fehler beim Speichern des Patienten:', err);
+      setError('Patient konnte nicht gespeichert werden');
     }
   };
 
-  const getSortedAndFiltered = () => {
+  const getSortedAndFiltered = useCallback(() => {
     const sorted = [...patienten].sort((a, b) => {
       const aVal = (a[sortKey] ?? '').toString().toLowerCase();
       const bVal = (b[sortKey] ?? '').toString().toLowerCase();
       return sortOrder === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
     });
 
+    if (!suchbegriff) return sorted;
+    
+    const q = suchbegriff.toLowerCase();
     return sorted.filter((p) => {
-      const q = suchbegriff.toLowerCase();
       return (
         p.vorname.toLowerCase().includes(q) ||
         p.nachname.toLowerCase().includes(q) ||
@@ -152,7 +132,7 @@ export function usePatients() {
         (p.kontakt?.email || '').toLowerCase().includes(q)
       );
     });
-  };
+  }, [patienten, sortKey, sortOrder, suchbegriff]);
 
   return {
     patienten: getSortedAndFiltered(),
@@ -171,35 +151,7 @@ export function usePatients() {
     handleDelete,
     handleSubmit,
     isLoading,
-  };
-}
-
-// In src/hooks/usePatients.ts
-
-// Aktualisiere diese Funktion
-function getInitialForm(): Omit<Patient, 'id'> {
-  return {
-    vorname: '',
-    nachname: '',
-    geburtsdatum: '',
-    geschlecht: '', // Leerer String entspricht "Bitte wählen"
-    anschrift: {
-      adresse: '',
-      hausnummer: '',
-      plz: '',
-      ort: '',
-      adresseZusatz: ''
-    },
-    kontakt: {
-      telefon: '',
-      mobil: '',
-      email: ''
-    },
-    versicherung: '',
-    termine: {
-      geplant: [],
-      vergangen: []
-    },
-    kartei: []
+    error,
+    refresh: fetchPatienten,
   };
 }

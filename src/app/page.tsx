@@ -10,7 +10,7 @@ export default function Home() {
       <section className="section-container">
         <div className="content-wrapper flex flex-col md:flex-row items-center gap-10">
           <Image
-            src="/pictures/logo.svg"
+            src="/images/logo.svg"
             alt="Logo"
             width={220}
             height={220}

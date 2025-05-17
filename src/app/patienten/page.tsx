@@ -6,6 +6,7 @@ import { SearchBar } from '@/components/domain/patients/search/SearchBar';
 import { PatientForm } from '@/components/domain/patients/form/PatientForm';
 import { PatientTable } from '@/components/domain/patients/list/PatientTable';
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
+import { ErrorMessage } from '@/components/ui/ErrorMessage';
 import { useEffect, useRef, useCallback } from 'react';
 import type { Patient } from '@/types/patient';
 
@@ -25,6 +26,9 @@ export default function PatientenSeite() {
     handleSort,
     handleDelete,
     handleSubmit,
+    error,
+    isLoading,
+    refresh
   } = usePatients();
 
   // Refs für Fokus-Management
@@ -110,6 +114,22 @@ export default function PatientenSeite() {
             onChange={setSuchbegriff}
             onNewPatient={() => setFormularOffenId('neu')}
           />
+
+          {/* Fehleranzeige hinzufügen */}
+          {error && (
+            <ErrorMessage 
+              message={error} 
+              onRetry={refresh}
+              className="mb-6"
+            />
+          )}
+
+          {/* Ladeindikator hinzufügen */}
+          {isLoading && (
+            <div className="flex justify-center p-6">
+              <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-primary-500"></div>
+            </div>
+          )}
 
           <div className="card" role="region" aria-label="Patiententabelle">
             <PatientTable 

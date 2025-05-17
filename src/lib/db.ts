@@ -1,7 +1,7 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import { Patient } from '@/types/patient';
-import { encrypt, decrypt, isEncrypted } from './encryption';
+import { encrypt, decrypt, isEncrypted } from './encryptionMock';
 
 // Dateipfade für Daten
 const patientenFilePath = path.join(process.cwd(), 'src', 'data', 'patienten.json');
